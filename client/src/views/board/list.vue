@@ -14,6 +14,11 @@
         <tr v-for="board in boardList" :key="board.id">
           <td class="text-center">{{ board.id }}</td>
           <td>{{ board.title }}</td>
+          <td class="text-center">
+            <div v-if="board.writeUser">
+              {{ board.writeUser.name }}
+            </div>
+          </td>
           <td class="text-center">{{ board.writer }}</td>
           <td class="text-center">{{ board.viewCount }}</td>
           <td class="text-center">{{ board.writeTime | dateFormat }}</td>
@@ -43,19 +48,9 @@ export default {
     },
   },
   mounted() {
-    //TODO : 서버에서 게시물 목록 가져와서 넣기
-    // for (var i = 0; i < 10; i++) {
-    //   this.boardList.push({
-    //     id: i,
-    //     title: "제목" + i,
-    //     writer: "작성자" + i,
-    //     viewCount: i,
-    //     writeDate: "2020-01-01",
-    //   });
-    // }
     this.axios.get("/api/board/list").then((result) => {
       console.log(result);
-      this.boardList = result.data;
+      this.boardList = result.data.boardList;
     });
   },
   methods: {
